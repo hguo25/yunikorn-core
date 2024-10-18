@@ -132,6 +132,22 @@ func InitQueueMetrics(name string) *QueueMetrics {
 	return q
 }
 
+func (m *QueueMetrics) UnregisterMetrics() {
+	var queueMetricsList = []prometheus.Collector{
+		m.appMetricsLabel,
+		m.appMetricsSubsystem,
+		m.containerMetrics,
+		m.resourceMetricsLabel,
+		m.resourceMetricsSubsystem,
+		m.maxRunningApps,
+	}
+
+	// Unregister the metrics
+	for _, metric := range queueMetricsList {
+		prometheus.Unregister(metric)
+	}
+}
+
 func (m *QueueMetrics) incQueueApplications(state string) {
 	m.appMetricsLabel.WithLabelValues(state).Inc()
 	m.appMetricsSubsystem.WithLabelValues(state).Inc()

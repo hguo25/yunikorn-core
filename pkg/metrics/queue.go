@@ -139,7 +139,6 @@ func (m *QueueMetrics) UnregisterMetrics() {
 		m.containerMetrics,
 		m.resourceMetricsLabel,
 		m.resourceMetricsSubsystem,
-		m.maxRunningApps,
 	}
 
 	// Unregister the metrics

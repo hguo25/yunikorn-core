@@ -87,8 +87,10 @@ func GetQueueMetrics(name string) *QueueMetrics {
 func RemoveQueueMetrics(name string) {
 	m.lock.Lock()
 	defer m.lock.Unlock()
-	m.queues[name].UnregisterMetrics()
-	delete(m.queues, name)
+	if metrics, ok := m.queues[name]; ok {
+		metrics.UnregisterMetrics()
+		delete(m.queues, name)
+	}
 }
 
 func GetEventMetrics() *EventMetrics {
